@@ -1,20 +1,26 @@
-with open("Dane_PR/dane.txt") as file:
-    data=[]
-    for i in file.readlines():
-        t=[]
-        for y in i.strip("\n").split(" "):
-            t.append(int(y))
-        data.append(t)
+with open('Dane_PR/dane.txt', 'r') as file:
+    data = []
+    for i in file:
+        data.append(i.split())
+
 file.close()
 
-kontrast=0
+result = []
 
-for i in range(0,len(data)-1):
-    for y in range(0,len(data[0])-1):
-        if abs(data[i][y]-data[i+1][y])>128:
-            kontrast+=1
-        if abs(data[i][y]-data[i][y+1])>128:
-            kontrast+=1
+for i in range(1,200):
+    for j in range(1,319):
+        if abs(int(data[i][j]) - int(data[i][j + 1])) > 128:
+            if [i, j] not in result:
+                result.append([i, j])
+            if [i, j + 1] not in result:
+                result.append([i, j + 1])
 
+for i in range(1,199):
+    for j in range(1,320):
+        if abs(int(data[i][j]) - int(data[i + 1][j])) > 128:
+            if [i, j] not in result:
+                result.append([i, j])
+            if [i + 1, j] not in result:
+                result.append([i + 1, j])
 
-print(kontrast)
+print(len(result))
